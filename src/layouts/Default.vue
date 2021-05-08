@@ -1,10 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar 
+      app
+      color="cyan"
+      dark
+      flat
+    >
       <v-toolbar-title> 
-        <g-link to="/">goSUP
+        <g-link to="/" >goSUP
         </g-link>
-          </v-toolbar-title>
+      </v-toolbar-title>
       <v-text-field
         v-model = "searchText"
         @click:clear = "searchText = ''"
@@ -23,7 +28,7 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col sm="6" offset-sm="3">
+          <v-col sm="8" offset-sm="2">
             <slot :searchText="searchText"/>
           </v-col>
         </v-row>
@@ -58,8 +63,9 @@ export default ({
 <style scoped>
  .v-toolbar__title a {
    text-decoration: none;
-   color: black;
+   color: yellow;
  }
+
 </style>
 
  

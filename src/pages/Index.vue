@@ -1,6 +1,6 @@
 <template>
   <Layout v-slot="{searchText}">
-    <v-tabs v-model="tab" grow>
+    <v-tabs v-model="tab" grow slider-color="yellow" color="white" background-color="cyan">
       <v-tab>All spots</v-tab>
       <v-tab>Courses</v-tab>
       <v-tab>Rental</v-tab>
@@ -32,7 +32,7 @@
           
           <v-btn
             @click="$router.push(`/spots/${edge.node.id}`)"
-            color="orange"
+            color="cyan darken-4"
             text
           >
             Info
@@ -67,7 +67,7 @@
 <script>
 export default {
   metaInfo: {
-    title: 'Hello, world!'
+    title: 'goSUP'
   },
   data() {
     return {
@@ -112,4 +112,27 @@ export default {
 .home-links a {
   margin-right: 1rem;
 }
+
+ .v-application--wrap {
+   background-color: #4DD0E1;
+ }
+
+ .v-card {
+   margin-bottom: 20px;
+ }
+
+ .v-card__title {
+   background-color: rgb(25, 138, 153);
+   opacity: 0.8;
+   font-size: 14px;
+   line-height: 16px;
+   
+ }
+
+ .v-image__image {
+      filter:grayscale(0.3);
+ }
+
+
+
 </style>

@@ -1,10 +1,15 @@
 <template>
+
     <Layout>
+        <v-card>
         <h1>{{$page.spot.title}}</h1>
-        <img :src="`http://localhost:1337${$page.spot.image}`"> 
+        <div class="image-container">
+            <img class="spot-img" :src="`http://localhost:1337${$page.spot.image}`"> 
+        </div>
         <p>{{$page.spot.description}}</p>
-        <p>Address:{{$page.spot.address}}</p>
-        <p>Tour Duration: {{$page.spot.duration}}</p>
+        <p><b>Address:</b> {{$page.spot.address}}</p>
+        <p><b>Tour Duration:</b> {{$page.spot.duration}}</p>
+        </v-card>
     </Layout>
 </template>
 
@@ -33,3 +38,26 @@ export default  {
     }
 }
 </script>
+
+<style scoped>
+    .spot-img {
+        max-width: 400px;
+        margin: 20px;
+    }
+
+    .v-card {
+       padding: 20px;
+    }
+
+    .v-card h1 {
+        text-align: center;
+    }
+
+    .image-container {
+        text-align: center;
+    }
+    .v-application__wrap {
+        background-color: #4DD0E1;
+    }
+
+</style>
