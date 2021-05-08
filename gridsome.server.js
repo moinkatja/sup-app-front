@@ -22,12 +22,14 @@ module.exports = function (api) {
     const { data } = await axios.get('http://localhost:1337/spots')
 
     const collection = actions.addCollection({
-      typeName: 'Spots'
+      typeName: 'Spot',
+      path: '/spots/:id'
     })
 
     for (const spot of data) {
       collection.addNode({
         id: spot.id,
+        path: '/spots/'+ spot.id,
         title: spot.title,
         description: spot.description,
         duration: spot.duration,

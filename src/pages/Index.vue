@@ -1,53 +1,53 @@
 <template>
-  <Layout>
-  
-        <v-tabs v-model="tab" grow>
-          <v-tab>All spots</v-tab>
-          <v-tab>Courses</v-tab>
-          <v-tab>Rental</v-tab>
-          <v-tab>Shop</v-tab>
-        </v-tabs>
-        <v-row class="justify-space-around"> 
-          <v-card
-            v-for = "edge in spots" :key="edge.node.id"
-            width="280"
-            class = "mt-5"
+  <Layout v-slot="{searchText}">
+    <v-tabs v-model="tab" grow>
+      <v-tab>All spots</v-tab>
+      <v-tab>Courses</v-tab>
+      <v-tab>Rental</v-tab>
+      <v-tab>Shop</v-tab>
+    </v-tabs>
+    <v-row class="justify-space-around"> 
+      <v-card
+        v-for = "edge in getSpots(searchText)" :key="edge.node.id"
+        width="280"
+        class = "mt-5"
+      >
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          :src="`http://localhost:1337${edge.node.thumbnail}`"
+        >
+        <v-card-title>{{edge.node.title}}</v-card-title>
+        </v-img>
+
+        <v-card-subtitle class="pb-0">
+          {{edge.node.address}}
+        </v-card-subtitle>
+
+        <v-card-text class="text--primary">
+          <div> {{edge.node.description}}</div>
+        </v-card-text>
+
+        <v-card-actions>
+          
+          <v-btn
+            @click="$router.push(`/spots/${edge.node.id}`)"
+            color="orange"
+            text
           >
-            <v-img
-              class="white--text align-end"
-              height="200px"
-              :src="`http://localhost:1337${edge.node.thumbnail}`"
-            >
-            <v-card-title>{{edge.node.title}}</v-card-title>
-            </v-img>
+            Info
+          </v-btn>
 
-            <v-card-subtitle class="pb-0">
-              {{edge.node.address}}
-            </v-card-subtitle>
-
-            <v-card-text class="text--primary">
-              <div> {{edge.node.description}}</div>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-btn
-                color="orange"
-                text
-              >
-                Info
-              </v-btn>
-
-            </v-card-actions>
-          </v-card>
-        </v-row>
-
+        </v-card-actions>
+      </v-card>
+    </v-row>
   </Layout>
 </template>
 
 <page-query>
   query {
     spots:  
-      allSpots {
+      allSpot {
         edges {
           node {
             id
@@ -97,6 +97,11 @@ export default {
     showSpotsByType(val) {
       this.spots = this.$page.spots.edges.filter((edge)=> {
         return  edge.node.category === val
+      })
+    },
+    getSpots(searchText) {
+      return this.spots.filter((edge) => {
+        return edge.node.description.toLowerCase().includes(searchText.toLowerCase())
       })
     }
   }
