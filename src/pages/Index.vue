@@ -1,27 +1,104 @@
 <template>
   <Layout>
+  
+        <v-tabs v-model="tab" grow>
+          <v-tab>All spots</v-tab>
+          <v-tab>Courses</v-tab>
+          <v-tab>Rental</v-tab>
+          <v-tab>Shop</v-tab>
+        </v-tabs>
+        <v-row class="justify-space-around"> 
+          <v-card
+            v-for = "edge in spots" :key="edge.node.id"
+            width="280"
+            class = "mt-5"
+          >
+            <v-img
+              class="white--text align-end"
+              height="200px"
+              :src="`http://localhost:1337${edge.node.thumbnail}`"
+            >
+            <v-card-title>{{edge.node.title}}</v-card-title>
+            </v-img>
 
-    <!-- Learn how to use images here: https://gridsome.org/docs/images -->
-    <g-image alt="Example image" src="~/favicon.png" width="135" />
+            <v-card-subtitle class="pb-0">
+              {{edge.node.address}}
+            </v-card-subtitle>
 
-    <h1>Hello, world!</h1>
+            <v-card-text class="text--primary">
+              <div> {{edge.node.description}}</div>
+            </v-card-text>
 
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur excepturi labore tempore expedita, et iste tenetur suscipit explicabo! Dolores, aperiam non officia eos quod asperiores
-    </p>
+            <v-card-actions>
+              <v-btn
+                color="orange"
+                text
+              >
+                Info
+              </v-btn>
 
-    <p class="home-links">
-      <a href="https://gridsome.org/docs/" target="_blank" rel="noopener">Gridsome Docs</a>
-      <a href="https://github.com/gridsome/gridsome" target="_blank" rel="noopener">GitHub</a>
-    </p>
+            </v-card-actions>
+          </v-card>
+        </v-row>
 
   </Layout>
 </template>
+
+<page-query>
+  query {
+    spots:  
+      allSpots {
+        edges {
+          node {
+            id
+            duration
+            title
+            image  
+            description
+            address
+            thumbnail
+            category
+        }
+  	  }
+	  }
+  }
+</page-query>
 
 <script>
 export default {
   metaInfo: {
     title: 'Hello, world!'
+  },
+  data() {
+    return {
+      tab: 0,
+      spots: []
+
+    }
+  }, 
+  mounted() {
+    this.spots = this.$page.spots.edges
+
+  },
+  watch: {
+    tab(val) {
+      if(this.tab === 0) {
+        this.showAllSpots()
+      } else {
+        this.showSpotsByType(val)
+      }
+
+    }
+  },
+  methods: {
+    showAllSpots() {
+      this.spots = this.$page.spots.edges
+    },
+    showSpotsByType(val) {
+      this.spots = this.$page.spots.edges.filter((edge)=> {
+        return  edge.node.category === val
+      })
+    }
   }
 }
 </script>
